@@ -17,7 +17,10 @@ fun Application.module() {
             val memes = listOf(
                 "please do not adjust your television set, everything will be fine",
                 "who stole the spirit level?",
-                "what's going on here?"
+                "umm, nyah~!",
+                "mew mew :3",
+                "i don't think therefore i'm not",
+                "'poggers' is forbidden, blame nikky"
             )
             call.respondHtml {
                 head {
