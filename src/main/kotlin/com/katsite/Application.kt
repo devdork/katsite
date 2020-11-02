@@ -23,6 +23,7 @@ val MEMES = listOf(
 fun Application.module() {
     routing {
         get("/") {
+            val requestMeme = MEMES.random()
             call.respondHtml {
                 head {
                     link {
@@ -30,11 +31,14 @@ fun Application.module() {
                         type="text/css"
                         href="./styles.css"
                     }
+                    title {
+                        +"kat - $requestMeme"
+                    }
                 }
                 body {
                     header {
                         h1 { +"kat" }
-                        p { +MEMES.random() }
+                        p { +requestMeme }
                     }
                     main {
                         section {
