@@ -14,6 +14,11 @@ import kotlin.random.Random
 fun Application.module() {
     routing {
         get("/") {
+            val memes = listOf(
+                "please do not adjust your television set, everything will be fine",
+                "who stole the spirit level?",
+                "what's going on here?"
+            )
             call.respondHtml {
                 head {
                     link {
@@ -25,7 +30,7 @@ fun Application.module() {
                 body {
                     header {
                         h1 { +"kat" }
-                        p { +"who stole the spirit level?" }
+                        p { +memes.random() }
                     }
                     main {
                         section {
@@ -53,8 +58,8 @@ fun Application.module() {
                 }
             }
         }
-        val rotations = mutableMapOf<String, Int>().withDefault { k -> Random.nextInt(20) }
 
+        val rotations = mutableMapOf<String, Int>().withDefault { k -> Random.nextInt(20) }
         get("/styles.css") {
             val ip = call.request.origin.host
             call.respondCss {
@@ -69,24 +74,15 @@ fun Application.module() {
                     width = 60.pct
                     height = 100.pct
                     transform.rotate(rotations.getValue(ip).deg)
-//                    padding(1.em)
                 }
                 rule("main") {
                     padding(1.em)
                 }
                 header {
-//                    margin(0.px, -999.px)
                     padding(0.5.em)
-                    //width = 100.pct
                     textAlign = TextAlign.center
                     color = Color("#fff")
                     backgroundColor = Color("#141414")
-                }
-                p {
-//                    fontSize = 2.em
-                }
-                rule("p.myclass") {
-                    color = Color.blue
                 }
             }
             rotations[ip] = rotations.getValue(ip) % 360 + 1
