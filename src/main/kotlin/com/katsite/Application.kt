@@ -78,27 +78,30 @@ fun Application.module() {
             val headerBackground = Random.nextInt(360)
             val foreground = (bodyBackground + 180 % 360)
             val headerForeground = (headerBackground + 180)
+            val boredRadius = Random.nextInt(0,5).em
 
             call.respondCss {
                 html {
-                    backgroundColor = background.toHSL()
+                    backgroundColor = background.toHSL(saturation = Random.nextInt(50,100))
                 }
                 body {
                     boxShadow(
-                        hsl(Random.nextInt(360), 100, 50),
-                        Random.nextInt(10, 100).px,
-                        Random.nextInt(10, 100).px,
-                        Random.nextInt(10, 100).px,
-                        Random.nextInt(10, 100).px
+                        hsl(Random.nextInt(360), Random.nextInt(50,100), 50),
+                        Random.nextInt(20, 200).px,
+                        Random.nextInt(20, 200).px,
+                        Random.nextInt(20, 200).px,
+                        Random.nextInt(20, 200).px
                     )
-                    backgroundColor = bodyBackground.toHSL()
+                    backgroundColor = bodyBackground.toHSL(saturation = Random.nextInt(50,100))
                     fontFamily = "sans-serif"
                     margin(Random.nextInt(4,12).em, LinearDimension.auto)
                     width = 60.pct
                     minWidth = 768.px
                     height = 100.pct
-                    color = foreground.toHSL()
+                    color = foreground.toHSL(saturation = Random.nextInt(50,100))
                     transform.rotate(rotations.getValue(ip).deg)
+                    borderRadius = boredRadius
+                    overflow = Overflow.hidden
                 }
                 rule("main") {
                     padding(1.em)
@@ -106,8 +109,10 @@ fun Application.module() {
                 header {
                     padding(0.5.em)
                     textAlign = TextAlign.center
-                    color = headerForeground.toHSL()
-                    backgroundColor = headerBackground.toHSL()
+                    borderTopLeftRadius = boredRadius
+                    borderTopRightRadius = boredRadius
+                    color = headerForeground.toHSL(saturation = Random.nextInt(50,100))
+                    backgroundColor = headerBackground.toHSL(saturation = Random.nextInt(50,100))
                 }
             }
             rotations[ip] = rotations.getValue(ip) % 360 + Random.nextInt(5, 10)
