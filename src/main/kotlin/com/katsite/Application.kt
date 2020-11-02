@@ -9,19 +9,20 @@ import kotlinx.css.properties.*
 import kotlinx.html.*
 import kotlin.random.Random
 
+val MEMES = listOf(
+    "please do not adjust your television set, everything will be fine",
+    "who stole the spirit level?",
+    "umm, nyah~!",
+    "mew mew :3",
+    "i don't think therefore i'm not",
+    "'poggers' is forbidden, blame nikky"
+)
+
 @Suppress("unused") // Referenced in application.conf
 @JvmOverloads
 fun Application.module() {
     routing {
         get("/") {
-            val memes = listOf(
-                "please do not adjust your television set, everything will be fine",
-                "who stole the spirit level?",
-                "umm, nyah~!",
-                "mew mew :3",
-                "i don't think therefore i'm not",
-                "'poggers' is forbidden, blame nikky"
-            )
             call.respondHtml {
                 head {
                     link {
@@ -33,7 +34,7 @@ fun Application.module() {
                 body {
                     header {
                         h1 { +"kat" }
-                        p { +memes.random() }
+                        p { +MEMES.random() }
                     }
                     main {
                         section {
