@@ -15,7 +15,8 @@ val MEMES = listOf(
     "umm, nyah~!",
     "mew mew :3",
     "i don't think therefore i'm not",
-    "'poggers' is forbidden, blame nikky"
+    "'poggers' is forbidden, blame nikky",
+    "this website is as straight as i am"
 )
 
 @Suppress("unused") // Referenced in application.conf
@@ -67,20 +68,36 @@ fun Application.module() {
             }
         }
 
+        fun Int.toHSL(saturation: Int = 100, lightness: Int = 50) = hsl(this % 360, saturation, lightness)
+
         val rotations = mutableMapOf<String, Int>().withDefault { k -> Random.nextInt(20) }
         get("/styles.css") {
             val ip = call.request.origin.host
+            val background = Random.nextInt(360)
+            val bodyBackground = Random.nextInt(360)
+            val headerBackground = Random.nextInt(360)
+            val foreground = (bodyBackground + 180 % 360)
+            val headerForeground = (headerBackground + 180)
+
             call.respondCss {
                 html {
-                    backgroundColor = Color("#ddd")
+                    backgroundColor = background.toHSL()
                 }
                 body {
-                    boxShadow(Color("#999"), 20.px, 20.px, 20.px, 20.px)
-                    backgroundColor = Color("#fff")
+                    boxShadow(
+                        hsl(Random.nextInt(360), 100, 50),
+                        Random.nextInt(10, 100).px,
+                        Random.nextInt(10, 100).px,
+                        Random.nextInt(10, 100).px,
+                        Random.nextInt(10, 100).px
+                    )
+                    backgroundColor = bodyBackground.toHSL()
                     fontFamily = "sans-serif"
-                    margin(8.em, LinearDimension.auto)
+                    margin(Random.nextInt(4,12).em, LinearDimension.auto)
                     width = 60.pct
+                    minWidth = 768.px
                     height = 100.pct
+                    color = foreground.toHSL()
                     transform.rotate(rotations.getValue(ip).deg)
                 }
                 rule("main") {
@@ -89,11 +106,11 @@ fun Application.module() {
                 header {
                     padding(0.5.em)
                     textAlign = TextAlign.center
-                    color = Color("#fff")
-                    backgroundColor = Color("#141414")
+                    color = headerForeground.toHSL()
+                    backgroundColor = headerBackground.toHSL()
                 }
             }
-            rotations[ip] = rotations.getValue(ip) % 360 + 1
+            rotations[ip] = rotations.getValue(ip) % 360 + Random.nextInt(5, 10)
         }
     }
 }
